@@ -3,7 +3,7 @@
 
 | Nama           | NRP        | Prodi     |
 | ---            | ---        | ----------|
-|...|...|...|
+|Zaldy Duma Malik|5048251001|Teknik Telekomunikasi|
 
 Clone repo ini lalu isi dengan workspace/pekerjaan kalian. 
 
