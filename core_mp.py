@@ -59,26 +59,45 @@ def gps_lock(master, timeout=30):
 def set_mode(master, mode_name):
     mode_mapping = master.mode_mapping()
     mode_num = mode_mapping.get(mode_name.upper())
-    if mode_num is None:
-        print(f"Mode '{mode_name}' not available. Available: {list(mode_mapping.keys())}")
-        return False
 
-    print(f"\n=== Set Mode: {mode_name.upper()} ({mode_num}) ===")
+    if mode_num is None:
+        print(f"Mode '{mode_name}' not available.")
+        return False
 
     master.mav.command_long_send(
         master.target_system,
         master.target_component,
-        mavutil.mavlink.MAV_CMD_DO_SET_MODE,  # 176
-        0,              # confirmation
-        1,              # param1: MAV_MODE_FLAG_CUSTOM_MODE_ENABLED
-        mode_num,       # param2: custom mode number
-        0, 0, 0, 0, 0  # param3-7: unused
+        mavutil.mavlink.MAV_CMD_DO_SET_MODE,
+        0,
+        1,
+        mode_num,
+        0, 0, 0, 0, 0
     )
+
     return wait_ack(master, expected_cmd=176)
+
+def land(master):
+    master.mav.command_long_send(
+        master.target_system,
+        master.target_component,
+        mavutil.mavlink.MAV_CMD_NAV_LAND,
+        0,
+        0, 0, 0, 0, 0, 0, 0
+    )
+    print("Land command sent...")
+    return wait_ack(master, expected_cmd=21)
 
 if __name__ == '__main__':
     master = connect_tcp(host='localhost', port=5763)
     gps_lock(master)
     arm(master, force=False)
     set_mode(master, 'AUTO')
+
+    time.sleep(20)  # Let it run for a bit
+
+    set_mode(master, 'RTL')
+ 
+
+
+
     
