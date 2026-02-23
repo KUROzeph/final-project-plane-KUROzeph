@@ -77,34 +77,108 @@ def set_mode(master, mode_name):
 
     return wait_ack(master, expected_cmd=176)
 
-def land(master):
-    master.mav.command_long_send(
-        master.target_system,
-        master.target_component,
-        mavutil.mavlink.MAV_CMD_NAV_LAND,
-        0,
-        0, 0, 0, 0, 0, 0, 0
-    )
-    print("Land command sent...")
-    return wait_ack(master, expected_cmd=21)
-
 def land_mode(master):
     print("Switching to LAND mode...")
     return set_mode(master, 'AUTOLAND')
 
+
+def offset_location(lat, lon, north_m, east_m):
+    dlat = north_m / 111111
+    dlon = east_m / (111111 * math.cos(math.radians(lat)))
+    return lat + dlat, lon + dlon
+
+def get_current_location(master, timeout=5):
+    start = time.time()
+    while time.time() - start < timeout:
+        msg = master.recv_match(type='GLOBAL_POSITION_INT', blocking=True, timeout=1)
+        if msg:
+            lat = msg.lat / 1e7
+            lon = msg.lon / 1e7
+            alt = msg.relative_alt / 1000.0
+            return lat, lon, alt
+    return None
+
+def guided_reposition(master, lat, lon, alt):
+    master.mav.command_int_send(
+        master.target_system,
+        master.target_component,
+        mavutil.mavlink.MAV_FRAME_GLOBAL_RELATIVE_ALT,
+        mavutil.mavlink.MAV_CMD_DO_REPOSITION,
+        0,
+        0,
+        -1,
+        0,
+        0,
+        0,
+        int(lat * 1e7),
+        int(lon * 1e7),
+        alt
+    )
+    print(f"Reposition command sent → {lat}, {lon}, {alt}")
+    return True
+
+def go_north(master, meters):
+    pos = get_current_location(master)
+    if not pos:
+        return False
+    lat, lon, alt = pos
+    new_lat, new_lon = offset_location(lat, lon, meters, 0)
+    return guided_reposition(master, new_lat, new_lon, alt)
+
+
+def go_south(master, meters):
+    pos = get_current_location(master)
+    if not pos:
+        return False
+    lat, lon, alt = pos
+    new_lat, new_lon = offset_location(lat, lon, -meters, 0)
+    return guided_reposition(master, new_lat, new_lon, alt)
+
+
+def go_east(master, meters):
+    pos = get_current_location(master)
+    if not pos:
+        return False
+    lat, lon, alt = pos
+    new_lat, new_lon = offset_location(lat, lon, 0, meters)
+    return guided_reposition(master, new_lat, new_lon, alt)
+
+
+def go_west(master, meters):
+    pos = get_current_location(master)
+    if not pos:
+        return False
+    lat, lon, alt = pos
+    new_lat, new_lon = offset_location(lat, lon, 0, -meters)
+    return guided_reposition(master, new_lat, new_lon, alt)
+
+
+
+
+
+
 if __name__ == '__main__':
     master = connect_tcp(host='localhost', port=5763)
-    gps_lock(master)
-    arm(master, force=False)
-    set_mode(master, 'AUTO')
 
-    time.sleep(10)
+    gps_lock(master)
+    arm(master)
+
+    set_mode(master, 'AUTO')
+    print("Taking off...")
+    time.sleep(25)    
 
     set_mode(master, 'GUIDED')
-    time.sleep(10)
-    land_mode(master)
- 
+    time.sleep(3)
 
+    go_north(master, 450)
+    time.sleep(25)
 
+    go_east(master, 450)
+    time.sleep(25)
 
+    go_south(master, 450)
+    time.sleep(25)
+
+    go_west(master, 450)
+    time.sleep(25)
     
