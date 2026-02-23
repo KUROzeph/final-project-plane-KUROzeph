@@ -1,6 +1,7 @@
 
 from pymavlink import mavutil
 import time
+import math
 
 RESULT_MAP = {
     0: 'ACCEPTED',
@@ -87,15 +88,21 @@ def land(master):
     print("Land command sent...")
     return wait_ack(master, expected_cmd=21)
 
+def land_mode(master):
+    print("Switching to LAND mode...")
+    return set_mode(master, 'AUTOLAND')
+
 if __name__ == '__main__':
     master = connect_tcp(host='localhost', port=5763)
     gps_lock(master)
     arm(master, force=False)
     set_mode(master, 'AUTO')
 
-    time.sleep(20)  # Let it run for a bit
+    time.sleep(10)
 
-    set_mode(master, 'RTL')
+    set_mode(master, 'GUIDED')
+    time.sleep(10)
+    land_mode(master)
  
 
 
