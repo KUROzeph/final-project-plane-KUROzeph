@@ -19,6 +19,8 @@ class TrustManager:
 
         if self.trust > 100:
             self.trust = 100
+        if self.trust < 0:
+            self.trust = 0
 
     def get_state(self):
         return {
@@ -45,7 +47,7 @@ stable_gesture = None
 stable_face_count = 0
 
 last_update = time.time()
-UPDATE_INTERVAL = 0.3  
+UPDATE_INTERVAL = 1.0
 
 while True:
     ret, frame = cap.read()
@@ -98,7 +100,12 @@ while True:
 
     annotated = results[0].plot()
 
-    trust_manager.update(stable_face_count)
+    current_time = time.time()
+
+    if current_time - last_update >= UPDATE_INTERVAL:
+        trust_manager.update(stable_face_count)
+        last_update = current_time
+
     state = trust_manager.get_state()
 
     font = cv2.FONT_HERSHEY_SIMPLEX
