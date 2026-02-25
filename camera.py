@@ -34,13 +34,13 @@ class TrustManager:
         if not self.in_love and self.trust >= self.love_threshold:
             self.in_love = True
 
-        if self.trust <= 0:
+        if self.trust <= 0 and self.in_love:
             self.collapse_triggered = True
 
         self._update_category()
 
     def _update_category(self):
-        if self.trust == 0:
+        if self.trust == 0 and self.in_love:
             self.category = "BROKEN"
         elif self.trust >= 80:
             self.category = "OBSESSED"
