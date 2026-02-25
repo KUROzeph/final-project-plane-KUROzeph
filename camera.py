@@ -17,10 +17,9 @@ class TrustManager:
         elif face_count == 0:
             self.trust -= 2
 
-        if self.trust > 100:
-            self.trust = 100
-        if self.trust < 0:
-            self.trust = 0
+        self.trust = max(0, min(100, self.trust))
+
+        
 
     def get_state(self):
         return {
