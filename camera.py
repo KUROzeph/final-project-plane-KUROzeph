@@ -3,12 +3,6 @@ import cv2
 import time
 from collections import Counter
 
-
-model = YOLO("model/gesture2.pt")
-face_cascade = cv2.CascadeClassifier(
-    cv2.data.haarcascades + "haarcascade_frontalface_default.xml"
-)
-
 class TrustManager:
     def __init__(self):
         self.trust = 60
@@ -25,6 +19,17 @@ class TrustManager:
 
         if self.trust > 100:
             self.trust = 100
+
+    def get_state(self):
+        return {
+            "trust": self.trust,
+        }
+
+model = YOLO("model/gesture2.pt")
+face_cascade = cv2.CascadeClassifier(
+    cv2.data.haarcascades + "haarcascade_frontalface_default.xml"
+)
+trust_manager = TrustManager()
 
 cap = cv2.VideoCapture(0)
 
@@ -92,6 +97,22 @@ while True:
             stable_gesture = None
 
     annotated = results[0].plot()
+
+    trust_manager.update(stable_face_count)
+    state = trust_manager.get_state()
+
+    font = cv2.FONT_HERSHEY_SIMPLEX
+    color = (255, 255, 255)
+
+    cv2.putText(
+    annotated,
+    f"trust: {state['trust']}",
+    (20, 40),
+    font,
+    0.7,
+    color,
+    2
+    )
 
     cv2.imshow("", annotated)
 
