@@ -9,17 +9,22 @@ class TrustManager:
         self.in_love = False
         self.category = "NEUTRAL"
 
-    def update(self, face_count):
+    def update(self, gesture, face_count):
         if face_count == 1:
             self.trust += 1
-        elif face_count >= 2:
+        elif face_count > 2:
             self.trust -= 3
         elif face_count == 0:
             self.trust -= 2
 
-        self.trust = max(0, min(100, self.trust))
+        if gesture == "heart_gest":
+            self.trust += 10
+        elif gesture == "thumbs_up":
+            self.trust += 3
+        elif gesture == "thumbs_down":
+            self.trust -= 5
 
-        
+        self.trust = max(0, min(100, self.trust))
 
     def get_state(self):
         return {
@@ -33,6 +38,8 @@ face_cascade = cv2.CascadeClassifier(
 trust_manager = TrustManager()
 
 cap = cv2.VideoCapture(0)
+cap.set(cv2.CAP_PROP_FRAME_WIDTH, 1280)
+cap.set(cv2.CAP_PROP_FRAME_HEIGHT, 720)
 
 GESTURE_BUFFER_SIZE = 10
 FACE_BUFFER_SIZE = 10
@@ -102,7 +109,7 @@ while True:
     current_time = time.time()
 
     if current_time - last_update >= UPDATE_INTERVAL:
-        trust_manager.update(stable_face_count)
+        trust_manager.update(stable_gesture, stable_face_count)
         last_update = current_time
 
     state = trust_manager.get_state()
