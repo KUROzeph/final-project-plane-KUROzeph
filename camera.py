@@ -8,11 +8,15 @@ class TrustManager:
         self.trust = 60
         self.in_love = False
         self.category = "NEUTRAL"
+        self.collapse_triggered = False
 
     def update(self, gesture, face_count):
+        if self.collapse_triggered:
+            return 
+
         if face_count == 1:
             self.trust += 1
-        elif face_count > 2:
+        elif face_count >= 2:
             self.trust -= 3
         elif face_count == 0:
             self.trust -= 2
@@ -26,9 +30,28 @@ class TrustManager:
 
         self.trust = max(0, min(100, self.trust))
 
+        if self.trust <= 0:
+            self.collapse_triggered = True
+
+        self._update_category()
+
+    def _update_category(self):
+        if self.trust == 0:
+            self.category = "COLLAPSE"
+        elif self.trust >= 80:
+            self.category = "HIGH"
+        elif self.trust >= 50:
+            self.category = "NEUTRAL"
+        elif self.trust >= 20:
+            self.category = "LOW"
+        else:
+            self.category = "CRITICAL"
+
     def get_state(self):
         return {
             "trust": self.trust,
+            "category": self.category,
+            "break": self.collapse_triggered,
         }
 
 model = YOLO("model/gesture2.pt")
@@ -126,6 +149,27 @@ while True:
     color,
     2
     )
+
+    cv2.putText(
+    annotated,
+    f"state: {state['category']}",
+    (20, 60),
+    font,
+    0.7,
+    color,
+    2
+    )
+
+    cv2.putText(
+    annotated,
+    f"condition: {state['break']}",
+    (20, 80),
+    font,
+    0.7,
+    color,
+    2
+    )
+
 
     cv2.imshow("", annotated)
 
