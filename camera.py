@@ -8,6 +8,7 @@ class TrustManager:
         self.trust = 60
         self.in_love = False
         self.category = "NEUTRAL"
+        self.love_threshold = 90
         self.collapse_triggered = False
 
     def update(self, gesture, face_count):
@@ -30,6 +31,9 @@ class TrustManager:
 
         self.trust = max(0, min(100, self.trust))
 
+        if not self.in_love and self.trust >= self.love_threshold:
+            self.in_love = True
+
         if self.trust <= 0:
             self.collapse_triggered = True
 
@@ -37,15 +41,15 @@ class TrustManager:
 
     def _update_category(self):
         if self.trust == 0:
-            self.category = "COLLAPSE"
+            self.category = "BROKEN"
         elif self.trust >= 80:
-            self.category = "HIGH"
+            self.category = "OBSESSED"
         elif self.trust >= 50:
-            self.category = "NEUTRAL"
+            self.category = "INTERESTED"
         elif self.trust >= 20:
-            self.category = "LOW"
+            self.category = "DISTANCED"
         else:
-            self.category = "CRITICAL"
+            self.category = "ABANDONED"
 
     def get_state(self):
         return {
