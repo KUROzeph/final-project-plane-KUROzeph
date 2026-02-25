@@ -9,6 +9,23 @@ face_cascade = cv2.CascadeClassifier(
     cv2.data.haarcascades + "haarcascade_frontalface_default.xml"
 )
 
+class TrustManager:
+    def __init__(self):
+        self.trust = 60
+        self.in_love = False
+        self.category = "NEUTRAL"
+
+    def update(self, face_count):
+        if face_count == 1:
+            self.trust += 1
+        elif face_count >= 2:
+            self.trust -= 3
+        elif face_count == 0:
+            self.trust -= 2
+
+        if self.trust > 100:
+            self.trust = 100
+
 cap = cv2.VideoCapture(0)
 
 GESTURE_BUFFER_SIZE = 10
