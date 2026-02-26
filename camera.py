@@ -123,8 +123,7 @@ def get_stable_input(trust_manager):
 
     cv2.imshow("", annotated)
 
-    if cv2.waitKey(1) & 0xFF == ord("q"):
-        return stable_gesture, stable_face_count, state
+    return stable_gesture, stable_face_count, state
 
 def end_cam():
     cap.release()
