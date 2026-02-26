@@ -117,44 +117,82 @@ def guided_reposition(master, lat, lon, alt):
     print(f"Reposition command sent → {lat}, {lon}, {alt}")
     return True
 
-def go_north(master, meters):
-    pos = get_current_location(master)
-    if not pos:
-        return False
-    lat, lon, alt = pos
-    new_lat, new_lon = offset_location(lat, lon, meters, 0)
-    return guided_reposition(master, new_lat, new_lon, alt)
+def haversine_distance(lat1, lon1, lat2, lon2):
+    R = 6371000  
 
+    phi1 = math.radians(lat1)
+    phi2 = math.radians(lat2)
+    deltphi = math.radians(lat2 - lat1)
+    deltambda = math.radians(lon2 - lon1)
 
-def go_south(master, meters):
-    pos = get_current_location(master)
-    if not pos:
-        return False
-    lat, lon, alt = pos
-    new_lat, new_lon = offset_location(lat, lon, -meters, 0)
-    return guided_reposition(master, new_lat, new_lon, alt)
+    a = math.sin(deltphi/2)**2 + \
+        math.cos(phi1) * math.cos(phi2) * math.sin(deltambda/2)**2
 
+    return 2 * R * math.atan2(math.sqrt(a), math.sqrt(1 - a))
 
-def go_east(master, meters):
-    pos = get_current_location(master)
-    if not pos:
-        return False
-    lat, lon, alt = pos
-    new_lat, new_lon = offset_location(lat, lon, 0, meters)
-    return guided_reposition(master, new_lat, new_lon, alt)
+class PositionController:
+    def __init__(self, master):
+        self.master = master
+        self.current_target = None
+        self.busy = False
 
+    def initialize(self):
+        pos = get_current_location(self.master)
+        if not pos:
+            raise Exception("Failed to get initial position.")
+        self.current_target = pos
+        print(f" Origin initialized at {self.current_target}")
 
-def go_west(master, meters):
-    pos = get_current_location(master)
-    if not pos:
-        return False
-    lat, lon, alt = pos
-    new_lat, new_lon = offset_location(lat, lon, 0, -meters)
-    return guided_reposition(master, new_lat, new_lon, alt)
+    def move_relative(self, north_m, east_m):
+        if self.busy:
+            return False
 
+        if not self.current_target:
+            return False
 
+        self.busy = True
 
+        lat, lon, alt = self.current_target
+        new_lat, new_lon = offset_location(lat, lon, north_m, east_m)
 
+        self.current_target = (new_lat, new_lon, alt)
+
+        guided_reposition(self.master, new_lat, new_lon, alt)
+
+        self.wait_until_reached(new_lat, new_lon)
+
+        self.busy = False
+        return True
+
+    def wait_until_reached(self, target_lat, target_lon, tolerance=120):
+        print("Navigating to target...")
+        while True:
+            pos = get_current_location(self.master)
+            if not pos:
+                continue
+
+            lat, lon, _ = pos
+            distance = haversine_distance(lat, lon, target_lat, target_lon)
+
+            print(f"Distance: {distance:.1f} m")
+
+            if distance <= tolerance:
+                print(" Target reached")
+                break
+
+            time.sleep(1)
+
+    def go_north(self, meters):
+        return self.move_relative(meters, 0)
+
+    def go_south(self, meters):
+        return self.move_relative(-meters, 0)
+
+    def go_east(self, meters):
+        return self.move_relative(0, meters)
+
+    def go_west(self, meters):
+        return self.move_relative(0, -meters)
 
 
 if __name__ == '__main__':
@@ -165,20 +203,16 @@ if __name__ == '__main__':
 
     set_mode(master, 'AUTO')
     print("Taking off...")
-    time.sleep(25)    
+    time.sleep(25)
 
     set_mode(master, 'GUIDED')
     time.sleep(3)
 
-    go_north(master, 450)
-    time.sleep(25)
+    controller = PositionController(master)
+    controller.initialize()
 
-    go_east(master, 450)
-    time.sleep(25)
-
-    go_south(master, 450)
-    time.sleep(25)
-
-    go_west(master, 450)
-    time.sleep(25)
+    controller.go_north(450)
+    controller.go_east(450)
+    controller.go_south(450)
+    controller.go_west(450)
     
