@@ -186,11 +186,9 @@ class PositionController:
 
     def fly_to_home(self):
         if not self.home_position:
-            print("No home position set.")
             return False
 
         if self.busy:
-            print("Controller busy.")
             return False
 
         self.busy = True
@@ -203,6 +201,17 @@ class PositionController:
         self.wait_until_reached(home_lat, home_lon)
 
         self.busy = False
+        return True
+    
+    def crash(self):
+        pos = get_current_location(self.master)
+        if not pos:
+            return False
+
+        lat, lon, alt = pos
+
+        target_alt = -20  
+        guided_reposition(self.master, lat, lon, target_alt)
         return True
 
     def go_north(self, meters):
