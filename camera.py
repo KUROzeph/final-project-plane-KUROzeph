@@ -28,11 +28,12 @@ stable_face_count = 0
 last_update = time.time()
 UPDATE_INTERVAL = 3.0
 
-while True:
+def get_stable_input():
+    global stable_gesture, stable_face_count, last_update
+
     ret, frame = cap.read()
     if not ret:
-        break
-
+        return None, 0
 
     gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
     faces = face_cascade.detectMultiScale(
@@ -124,8 +125,8 @@ while True:
     cv2.imshow("", annotated)
 
     if cv2.waitKey(1) & 0xFF == ord("q"):
-        break
+        return stable_gesture, stable_face_count, state
 
-
-cap.release()
-cv2.destroyAllWindows()
+def end_cam():
+    cap.release()
+    cv2.destroyAllWindows()
