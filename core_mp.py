@@ -135,12 +135,14 @@ class PositionController:
         self.master = master
         self.current_target = None
         self.busy = False
+        self.home_position = None
 
     def initialize(self):
         pos = get_current_location(self.master)
         if not pos:
             raise Exception("Failed to get initial position.")
         self.current_target = pos
+        self.home_position = pos
         print(f" Origin initialized at {self.current_target}")
 
     def move_relative(self, north_m, east_m):
@@ -182,6 +184,27 @@ class PositionController:
 
             time.sleep(1)
 
+    def fly_to_home(self):
+        if not self.home_position:
+            print("No home position set.")
+            return False
+
+        if self.busy:
+            print("Controller busy.")
+            return False
+
+        self.busy = True
+
+        home_lat, home_lon, home_alt = self.home_position
+        self.current_target = self.home_position
+
+        guided_reposition(self.master, home_lat, home_lon, home_alt)
+
+        self.wait_until_reached(home_lat, home_lon)
+
+        self.busy = False
+        return True
+
     def go_north(self, meters):
         return self.move_relative(meters, 0)
 
@@ -193,26 +216,4 @@ class PositionController:
 
     def go_west(self, meters):
         return self.move_relative(0, -meters)
-
-
-if __name__ == '__main__':
-    master = connect_tcp(host='localhost', port=5763)
-
-    gps_lock(master)
-    arm(master)
-
-    set_mode(master, 'AUTO')
-    print("Taking off...")
-    time.sleep(25)
-
-    set_mode(master, 'GUIDED')
-    time.sleep(3)
-
-    controller = PositionController(master)
-    controller.initialize()
-
-    controller.go_north(450)
-    controller.go_east(450)
-    controller.go_south(450)
-    controller.go_west(450)
     
