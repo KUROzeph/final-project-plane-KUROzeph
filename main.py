@@ -16,6 +16,26 @@ def main():
 
     mp_core = PositionController(master)
     mp_core.initialize()
+    trust_manager = TrustManager()
+    behavior = BehaviorMovement(trust_manager, mp_core)
+
+    try:
+        while True:
+            result = get_stable_input(trust_manager)
+
+            if result:
+                gesture = result
+
+                if gesture:
+                    behavior.execute_gesture(gesture)
+
+            time.sleep(0.1)
+
+    except KeyboardInterrupt:
+        print("Program ended.")
+
+    finally:
+        end_cam()
 
 if __name__ == "__main__":
     main()
