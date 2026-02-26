@@ -213,6 +213,20 @@ class PositionController:
         target_alt = -20  
         guided_reposition(self.master, lat, lon, target_alt)
         return True
+    
+    def near_home(self, threshold=50):
+        if not self.home_position:
+            return False
+
+        pos = get_current_location(self.master)
+        if not pos:
+            return False
+
+        lat, lon, _ = pos
+        home_lat, home_lon, _ = self.home_position
+
+        distance = haversine_distance(lat, lon, home_lat, home_lon)
+        return distance <= threshold
 
     def go_north(self, meters):
         return self.move_relative(meters, 0)
