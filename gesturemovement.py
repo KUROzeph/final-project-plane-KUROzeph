@@ -9,7 +9,6 @@ class BehaviorMovement:
     def execute_gesture(self, direction):
         state = self.trust_manager.get_state()
         category = state["category"]
-        trust = state["trust"]
 
         if category == "ABANDONED":
             self.do_abandoned(direction)
