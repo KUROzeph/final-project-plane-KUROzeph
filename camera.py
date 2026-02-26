@@ -8,7 +8,6 @@ model = YOLO("model/gesture2.pt")
 face_cascade = cv2.CascadeClassifier(
     cv2.data.haarcascades + "haarcascade_frontalface_default.xml"
 )
-trust_manager = TrustManager()
 
 cap = cv2.VideoCapture(0)
 cap.set(cv2.CAP_PROP_FRAME_WIDTH, 1280)
@@ -28,7 +27,7 @@ stable_face_count = 0
 last_update = time.time()
 UPDATE_INTERVAL = 3.0
 
-def get_stable_input():
+def get_stable_input(trust_manager):
     global stable_gesture, stable_face_count, last_update
 
     ret, frame = cap.read()
