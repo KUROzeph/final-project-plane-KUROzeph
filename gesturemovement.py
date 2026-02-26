@@ -72,9 +72,5 @@ class BehaviorMovement:
 
     def do_broken(self, direction):
         self.mp_core.fly_to_home()
-
-        while not self.mp_core.near_home(threshold = 50):
-            time.sleep(1)
-
         self.mp_core.crash()
     
