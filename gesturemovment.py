@@ -10,11 +10,18 @@ class BehaviorMovement:
         category = state["category"]
         trust = state["trust"]
 
-        self.do_normal(direction)
+        if category == "ABANDONED":
+            self.do_abandoned(direction)
+        elif category == "DISTANCED":
+            self.do_distanced(direction)
+        elif category == "INTERESTED":
+            self.do_interested(direction)
+        elif category == "OBSESSED":
+            self.do_obsessed(direction)
+        elif category == "BROKEN":
+            self.do_broken(direction)
 
-    def do_normal(self, direction):
-        meters = 200 
-
+    def move(self, direction):
         if direction == "point_north":
             self.mp_core.go_north(meters)
         elif direction == "point_south":
@@ -23,3 +30,5 @@ class BehaviorMovement:
             self.mp_core.go_east(meters)
         elif direction == "point_west":
             self.mp_core.go_west(meters)
+
+    
