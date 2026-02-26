@@ -66,7 +66,7 @@ class BehaviorMovement:
         if random.random() < 0.3:
             meters += 200
             
-        self.move(direction)
+        self.move(direction, meters)
 
     def do_broken(self, direction):
         self.mp_core.fly_to_home()
