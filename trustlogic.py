@@ -13,9 +13,9 @@ class TrustManager:
         if face_count == 1:
             self.trust += 1
         elif face_count >= 2:
-            self.trust -= 3
+            self.trust -= 5
         elif face_count == 0:
-            self.trust -= 2
+            self.trust -= 3
 
         if gesture == "heart_gest":
             self.trust += 10
