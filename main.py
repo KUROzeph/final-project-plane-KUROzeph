@@ -14,5 +14,8 @@ def main():
 
     set_mode(master, "GUIDED")
 
+    mp_core = PositionController(master)
+    mp_core.initialize()
+
 if __name__ == "__main__":
     main()
