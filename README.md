@@ -15,3 +15,6 @@ PPT dan Video masukkan \docs.
 
 Jika size terlalu besar bisa masukkan ke drive lalu masukkan linknya
 
+# Sistem Kendali SITL Fixed Wing Berbasis Gestur Tangan dengan Personalisasi Yandere.
+*Sebuah simulasi fixed wing yang dimana gestur tangan digunakan untuk memberi arahan drone serta tingkat emosi program yang mempengaruhi perilakunya*
+
