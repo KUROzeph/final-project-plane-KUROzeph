@@ -6,23 +6,34 @@ class BehaviorMovement:
         self.trust_manager = trust_manager
         self.mp_core = mp_core
         self.broken = False
+        self.busy = False
 
     def execute_gesture(self, direction):
+        if self.busy:
+            return
+        
+        self.busy = True
+
         state = self.trust_manager.get_state()
         category = state["category"]
 
-        if category == "ABANDONED":
-            self.do_abandoned(direction)
-        elif category == "DISTANCED":
-            self.do_distanced(direction)
-        elif category == "INTERESTED":
-            self.do_interested(direction)
-        elif category == "OBSESSED":
-            self.do_obsessed(direction)
-        elif category == "BROKEN":
-            if not self.broken:
-                self.do_broken(direction)
-                self.broken = True
+        try:
+
+            if category == "ABANDONED":
+                self.do_abandoned(direction)
+            elif category == "DISTANCED":
+                self.do_distanced(direction)
+            elif category == "INTERESTED":
+                self.do_interested(direction)
+            elif category == "OBSESSED":
+                self.do_obsessed(direction)
+            elif category == "BROKEN":
+                if not self.broken:
+                    self.do_broken(direction)
+                    self.broken = True
+
+        finally:
+            self.busy = False            
 
     def move(self, direction, meters):
         if direction == "point_north":
