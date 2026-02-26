@@ -26,7 +26,7 @@ stable_gesture = None
 stable_face_count = 0
 
 last_update = time.time()
-UPDATE_INTERVAL = 1.0
+UPDATE_INTERVAL = 3.0
 
 while True:
     ret, frame = cap.read()
