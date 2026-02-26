@@ -5,6 +5,7 @@ class BehaviorMovement:
     def __init__(self, trust_manager, mp_core):
         self.trust_manager = trust_manager
         self.mp_core = mp_core
+        self.broken = False
 
     def execute_gesture(self, direction):
         state = self.trust_manager.get_state()
@@ -19,7 +20,9 @@ class BehaviorMovement:
         elif category == "OBSESSED":
             self.do_obsessed(direction)
         elif category == "BROKEN":
-            self.do_broken(direction)
+            if not self.broken:
+                self.do_broken(direction)
+                self.broken = True
 
     def move(self, direction, meters):
         if direction == "point_north":
