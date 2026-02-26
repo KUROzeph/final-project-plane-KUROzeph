@@ -21,7 +21,7 @@ class BehaviorMovement:
         elif category == "BROKEN":
             self.do_broken(direction)
 
-    def move(self, direction):
+    def move(self, direction, meters):
         if direction == "point_north":
             self.mp_core.go_north(meters)
         elif direction == "point_south":
@@ -30,5 +30,18 @@ class BehaviorMovement:
             self.mp_core.go_east(meters)
         elif direction == "point_west":
             self.mp_core.go_west(meters)
+
+    def do_abandoned (self, direction):
+        self.move(direction)
+
+    def do_distanced(self, direction):
+        self.move(direction)
+
+    def do_interested(self, direction):
+        self.move(direction)
+
+    def do_obsessed(self, direction):
+        self.move(direction)
+
 
     
