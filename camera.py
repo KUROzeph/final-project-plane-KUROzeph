@@ -28,6 +28,15 @@ UPDATE_INTERVAL = 3.0
 def get_stable_input(trust_manager):
     global stable_gesture, stable_face_count, last_update
 
+    frame_count = 0
+    frame = cv2.resize(frame, (640, 480))
+
+    frame_count += 1
+    if frame_count % 3 == 0:
+        results = model(frame, verbose=False)
+    else:
+        results = [type('', (), {'boxes': []})()]
+
     ret, frame = cap.read()
     if not ret:
         return None, 0
