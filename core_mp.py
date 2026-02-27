@@ -149,15 +149,16 @@ class PositionController:
         if self.busy:
             return False
 
-        if not self.current_target:
-            return False
-
         self.busy = True
 
-        lat, lon, alt = self.current_target
-        new_lat, new_lon = offset_location(lat, lon, north_m, east_m)
+        pos = get_current_location(self.master)
+        if not pos:
+            self.busy = False
+            return False
 
-        self.current_target = (new_lat, new_lon, alt)
+        lat, lon, alt = pos
+
+        new_lat, new_lon = offset_location(lat, lon, north_m, east_m)
 
         guided_reposition(self.master, new_lat, new_lon, alt)
 
