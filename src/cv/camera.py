@@ -31,6 +31,7 @@ def get_stable_input(trust_manager):
     global stable_gesture, stable_face_count, last_update, frame_count
 
     ret, frame = cap.read()
+    frame = cv2.flip(frame, 1)
     if not ret:
         return None, 0, trust_manager.get_state()
 

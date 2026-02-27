@@ -8,3 +8,6 @@ def add_log(message):
 
     with open(LOG_FILE, "a") as f:
         f.write(formatted + "\n")
+
+def reset_log():
+    open(LOG_FILE, "w").close()

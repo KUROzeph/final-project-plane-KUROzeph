@@ -2,9 +2,12 @@ from src.plane.core_mp import connect_tcp, arm, gps_lock, set_mode, PositionCont
 from src.ai.trustlogic import TrustManager
 from src.plane.gesturemovement import BehaviorMovement
 from src.cv.camera import get_stable_input, end_cam
+from src.msg.log import reset_log
 import time
 
 def main():
+    reset_log()
+    
     master = connect_tcp(host='localhost', port=5763)
     gps_lock(master)
     arm(master)
