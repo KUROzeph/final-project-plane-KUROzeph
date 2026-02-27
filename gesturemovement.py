@@ -1,5 +1,6 @@
 import random
 import time
+import threading
 
 class BehaviorMovement:
     def __init__(self, trust_manager, mp_core):
@@ -33,17 +34,17 @@ class BehaviorMovement:
                     self.broken = True
 
         finally:
-            self.busy = False            
+            self.busy = False
 
     def move(self, direction, meters):
         if direction == "point_north":
-            self.mp_core.go_north(meters)
+            threading.Thread(target=self.mp_core.go_north, args=(meters,), daemon=True).start()
         elif direction == "point_south":
-            self.mp_core.go_south(meters)
+            threading.Thread(target=self.mp_core.go_south, args=(meters,), daemon=True).start()
         elif direction == "point_east":
-            self.mp_core.go_east(meters)
+            threading.Thread(target=self.mp_core.go_east, args=(meters,), daemon=True).start()
         elif direction == "point_west":
-            self.mp_core.go_west(meters)
+            threading.Thread(target=self.mp_core.go_west, args=(meters,), daemon=True).start()
 
     def do_abandoned (self, direction):
         if random.random() < 0.5:
@@ -81,7 +82,7 @@ class BehaviorMovement:
             
         self.move(direction, meters)
 
-    def do_broken(self, direction):
+    def do_broken(self):
         self.mp_core.fly_to_home()
         self.mp_core.crash()
     

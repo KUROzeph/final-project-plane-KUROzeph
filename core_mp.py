@@ -227,7 +227,7 @@ class PositionController:
 
         distance = haversine_distance(lat, lon, home_lat, home_lon)
         return distance <= threshold
-
+    
     def go_north(self, meters):
         return self.move_relative(meters, 0)
 
@@ -239,4 +239,3 @@ class PositionController:
 
     def go_west(self, meters):
         return self.move_relative(0, -meters)
-    

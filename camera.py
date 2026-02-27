@@ -10,8 +10,6 @@ face_cascade = cv2.CascadeClassifier(
 )
 
 cap = cv2.VideoCapture(0)
-cap.set(cv2.CAP_PROP_FRAME_WIDTH, 1280)
-cap.set(cv2.CAP_PROP_FRAME_HEIGHT, 720)
 
 GESTURE_BUFFER_SIZE = 10
 FACE_BUFFER_SIZE = 10
