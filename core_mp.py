@@ -167,9 +167,13 @@ class PositionController:
         self.busy = False
         return True
 
-    def wait_until_reached(self, target_lat, target_lon, tolerance=120):
+    def wait_until_reached(self, target_lat, target_lon, tolerance=100):
         print("Navigating to target...")
-        while True:
+
+        start = time.time()
+        timeout = 30
+
+        while time.time() - start < timeout:
             pos = get_current_location(self.master)
             if not pos:
                 continue
@@ -180,10 +184,12 @@ class PositionController:
             print(f"Distance: {distance:.1f} m")
 
             if distance <= tolerance:
-                print(" Target reached")
-                break
+                print("Target considered reached")
+                return
 
             time.sleep(1)
+
+        print("Timeout reached, continuing anyway")
 
     def fly_to_home(self):
         if not self.home_position:
