@@ -2,7 +2,7 @@ from ultralytics import YOLO
 import cv2
 import time
 from collections import Counter
-from trustlogic import TrustManager
+from ai.trustlogic import TrustManager
 
 model = YOLO("model/gesture2.pt")
 face_cascade = cv2.CascadeClassifier(

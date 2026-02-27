@@ -1,7 +1,7 @@
-from core_mp import connect_tcp, arm, gps_lock, set_mode, PositionController
-from trustlogic import TrustManager
-from gesturemovement import BehaviorMovement
-from camera import get_stable_input, end_cam
+from plane.core_mp import connect_tcp, arm, gps_lock, set_mode, PositionController
+from ai.trustlogic import TrustManager
+from plane.gesturemovement import BehaviorMovement
+from cv.camera import get_stable_input, end_cam
 import time
 
 def main():
@@ -10,7 +10,7 @@ def main():
     arm(master)
     set_mode(master, "AUTO")
 
-    time.sleep(15)
+    time.sleep(10)
 
     set_mode(master, "GUIDED")
 
