@@ -19,6 +19,9 @@ def main():
     mp_core.initialize()
     trust_manager = TrustManager()
     behavior = BehaviorMovement(trust_manager, mp_core)
+    last_gesture = None
+    last_log_time = 0
+    LOG_DELAY = 2
 
     try:
         while True:
@@ -27,8 +30,14 @@ def main():
             if result:
                 gesture, faces, state = result
 
+                current_time = time.time()
+
                 if gesture:
-                    behavior.execute_gesture(gesture)
+                    if gesture != last_gesture or (current_time - last_log_time) > LOG_DELAY:
+                        behavior.execute_gesture(gesture)
+
+                        last_gesture = gesture
+                        last_log_time = current_time
 
     except KeyboardInterrupt:
         print("Program ended.")
