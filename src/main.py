@@ -2,6 +2,7 @@ from plane.core_mp import connect_tcp, arm, gps_lock, set_mode, PositionControll
 from ai.trustlogic import TrustManager
 from plane.gesturemovement import BehaviorMovement
 from cv.camera import get_stable_input, end_cam
+from msg.log import add_log
 import time
 
 def main():
