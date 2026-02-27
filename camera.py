@@ -22,24 +22,23 @@ face_buffer = []
 stable_gesture = None
 stable_face_count = 0
 
+frame_count = 0
+
 last_update = time.time()
 UPDATE_INTERVAL = 3.0
 
 def get_stable_input(trust_manager):
-    global stable_gesture, stable_face_count, last_update
-
-    frame_count = 0
-    frame = cv2.resize(frame, (640, 480))
-
-    frame_count += 1
-    if frame_count % 3 == 0:
-        results = model(frame, verbose=False)
-    else:
-        results = [type('', (), {'boxes': []})()]
+    global stable_gesture, stable_face_count, last_update, frame_count
 
     ret, frame = cap.read()
     if not ret:
-        return None, 0
+        return None, 0, trust_manager.get_state()
+
+    frame = cv2.resize(frame, (640, 480))
+
+    frame_count += 1
+
+    results = model(frame, verbose=False)
 
     gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
     faces = face_cascade.detectMultiScale(
@@ -57,8 +56,6 @@ def get_stable_input(trust_manager):
         face_buffer.pop(0)
 
     stable_face_count = round(sum(face_buffer) / len(face_buffer))
-
-    results = model(frame, verbose=False)
 
     detected_label = None
 
