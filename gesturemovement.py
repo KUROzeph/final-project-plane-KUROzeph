@@ -70,12 +70,12 @@ class BehaviorMovement:
         self.move(direction, meters)
 
     def do_interested(self, direction):
-        meters = 300
+        meters = 400
 
         self.move(direction, meters)
 
     def do_obsessed(self, direction):
-        meters = random.randint(350, 500)
+        meters = random.randint(500, 800)
 
         if random.random() < 0.3:
             meters += 200
