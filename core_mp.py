@@ -171,7 +171,7 @@ class PositionController:
         print("Navigating to target...")
 
         start = time.time()
-        timeout = 30
+        timeout = 60
 
         while time.time() - start < timeout:
             pos = get_current_location(self.master)
