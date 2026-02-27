@@ -1,4 +1,4 @@
-
+from msg.log import add_log
 from pymavlink import mavutil
 import time
 import math
@@ -184,7 +184,7 @@ class PositionController:
             print(f"Distance: {distance:.1f} m")
 
             if distance <= tolerance:
-                print("Target considered reached")
+                add_log("Target reached.")
                 return
 
             time.sleep(1)

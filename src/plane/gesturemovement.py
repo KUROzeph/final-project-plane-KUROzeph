@@ -1,6 +1,7 @@
 import random
 import time
 import threading
+from msg.log import add_log
 
 class BehaviorMovement:
     def __init__(self, trust_manager, mp_core):
@@ -17,6 +18,7 @@ class BehaviorMovement:
 
         state = self.trust_manager.get_state()
         category = state["category"]
+        add_log(f"Executing gesture in state {category}")
 
         try:
 
@@ -60,17 +62,21 @@ class BehaviorMovement:
                 "point_east", "point_west"
             ])
 
+        add_log(f"ABANDONED, moving {direction} {meters}m")
+
         self.move(direction, meters)
 
     def do_distanced(self, direction):
         time.sleep(0.8)
 
         meters = random.randint(200, 250)
+        add_log(f"DISTANCED, moving {direction} {meters}m")
 
         self.move(direction, meters)
 
     def do_interested(self, direction):
         meters = 400
+        add_log(f"INTERESTED, moving {direction} {meters}m")
 
         self.move(direction, meters)
 
@@ -79,7 +85,9 @@ class BehaviorMovement:
 
         if random.random() < 0.3:
             meters += 200
-            
+
+        add_log(f"OBSESSED, moving {direction} {meters}m")
+
         self.move(direction, meters)
 
     def do_broken(self):

@@ -1,3 +1,6 @@
+from msg.log import add_log
+import time
+
 class TrustManager:
     def __init__(self):
         self.trust = 60
@@ -35,6 +38,8 @@ class TrustManager:
         self._update_category()
 
     def _update_category(self):
+        old_category = self.category
+
         if self.trust == 0 and self.in_love:
             self.category = "BROKEN"
         elif self.trust >= 80:
@@ -45,6 +50,20 @@ class TrustManager:
             self.category = "DISTANCED"
         else:
             self.category = "ABANDONED"
+
+        if self.category != old_category:
+            add_log(f"Category changed → {self.category}")
+
+            if self.category == "OBSESSED":
+                for i in range (10):
+                    add_log("i love you.")
+                    time.sleep(2)
+            elif self.category == "DISTANCED":
+                add_log("why are you not paying attention to me?")
+            elif self.category == "ABANDONED":
+                add_log("don't leave me...")
+            elif self.category == "BROKEN":
+                add_log("if i cant have you, then none can.")
 
     def get_state(self):
         return {
