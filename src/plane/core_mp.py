@@ -1,4 +1,4 @@
-from msg.log import add_log
+from src.msg.log import add_log
 from pymavlink import mavutil
 import time
 import math

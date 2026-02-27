@@ -1,7 +1,7 @@
 import random
 import time
 import threading
-from msg.log import add_log
+from src.msg.log import add_log
 
 class BehaviorMovement:
     def __init__(self, trust_manager, mp_core):

@@ -1,4 +1,4 @@
-from msg.log import add_log
+from src.msg.log import add_log
 import time
 
 class TrustManager:

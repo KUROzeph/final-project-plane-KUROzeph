@@ -1,8 +1,7 @@
-from plane.core_mp import connect_tcp, arm, gps_lock, set_mode, PositionController
-from ai.trustlogic import TrustManager
-from plane.gesturemovement import BehaviorMovement
-from cv.camera import get_stable_input, end_cam
-from msg.log import get_logs
+from src.plane.core_mp import connect_tcp, arm, gps_lock, set_mode, PositionController
+from src.ai.trustlogic import TrustManager
+from src.plane.gesturemovement import BehaviorMovement
+from src.cv.camera import get_stable_input, end_cam
 import time
 
 def main():
