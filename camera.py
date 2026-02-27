@@ -15,7 +15,7 @@ cap.set(cv2.CAP_PROP_FRAME_HEIGHT, 720)
 
 GESTURE_BUFFER_SIZE = 10
 FACE_BUFFER_SIZE = 10
-GESTURE_STABLE_THRESHOLD = 6
+GESTURE_STABLE_THRESHOLD = 3
 CONF_THRESHOLD = 0.7
 
 gesture_buffer = []
@@ -77,7 +77,27 @@ def get_stable_input(trust_manager):
         else:
             stable_gesture = None
 
-    annotated = results[0].plot()
+    annotated = frame.copy()
+
+    if len(results) > 0 and results[0].boxes is not None:
+        for box in results[0].boxes:
+            conf = float(box.conf[0])
+            cls_id = int(box.cls[0])
+
+            if conf > CONF_THRESHOLD:
+                x1, y1, x2, y2 = map(int, box.xyxy[0])
+                label = model.names[cls_id]
+
+                cv2.rectangle(annotated, (x1, y1), (x2, y2), (0, 255, 255), 2)
+                cv2.putText(
+                    annotated,
+                    f"{label} {conf:.2f}",
+                    (x1, y1 - 10),
+                    cv2.FONT_HERSHEY_SIMPLEX,
+                    0.6,
+                    (0, 255, 255),
+                    2
+                )
 
     current_time = time.time()
 
@@ -121,7 +141,8 @@ def get_stable_input(trust_manager):
     )
 
 
-    cv2.imshow("", annotated)
+    cv2.imshow("test", annotated)
+    cv2.waitKey(1)
 
     return stable_gesture, stable_face_count, state
 

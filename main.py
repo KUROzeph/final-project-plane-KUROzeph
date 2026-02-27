@@ -24,7 +24,7 @@ def main():
             result = get_stable_input(trust_manager)
 
             if result:
-                gesture = result
+                gesture, faces, state = result
 
                 if gesture:
                     behavior.execute_gesture(gesture)
