@@ -179,7 +179,7 @@ class PositionController:
             print(f"Distance: {distance:.1f} m")
 
             if distance <= tolerance:
-                add_log("Target reached.")
+                print("Target reached.")
                 return
 
             time.sleep(1)

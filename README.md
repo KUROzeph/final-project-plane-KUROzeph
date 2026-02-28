@@ -25,11 +25,65 @@ Program ini merupakan simulasi fixed wing menggunakan SITL Mission Planner yang 
 
 ---
 ## Daftar Isi
+- [System Structure](#system-structure)
+- [AI Trust and Emotion Behavior](#ai-trust-and-emotion-behavior)
 - [Requirements and Dependencies](#requirements-and-dependencies)
 - [How to Run](#how-to-run)
 - [Known Issues](#known-issues)
 - [References](#references)
 - [How To Spice Up Your Romance](#how-to-spice-up-your-romance)
+
+---
+## System Structure
+
+### Perception Layer
+-YOLOv8 gesture detection
+-Haar Cascade face detection
+-Confidence threshold
+-Temporal smoothing buffers
+
+### Emotional Engine
+-Trust variable (0–100)
+-Positive/negative modifiers
+-Time-based decay
+-Love threshold
+-Collapse trigger
+
+### Behavior Layer
+-Emotional category → movement magnitude
+-Asynchronous execution
+-State-based reaction
+
+### Flight Control Layer
+-PyMAVLink TCP connection
+-GUIDED reposition commands
+-Haversine distance tracking
+-SITL Plane simulation
+
+---
+## AI Trust and Emotion Behavior
+**Initial Trust**: 60
+
+### What Affects Trust
+|Increase Trust|Decrease Trust|
+|---|---|
+|Face on screen (+1)|More than 1 face on screen (-5)|
+|---|---|
+|Heart shaped hand (+10)|No face on screen (-3)|
+|---|---|
+|Thumbs up (+3)|Thumbs down(-5)|
+|---|---|
+|-|Did not give praise for too long(-1)|
+
+### Behavior Based On Category
+|Category|Trust Amount|Behavior|
+|---|---|---|
+|Obsessed|80-100|chance to overperform|
+|Interested|50-79|no special act|
+|Distanced|20-49|chance to underperform|
+|Abandoned|1-19|chance to underperform, mess control detection|
+|Broken|0(if obsessed has been reached)|force aggresive landing|
+
 
 ---
 
@@ -79,11 +133,22 @@ FOV akan generate setelah drone memasuki mode guided
 ---
 
 ## Known Issues
+- jika menggunakan webcam laptop ada kemungkinan akan stutter dan object detection kurang lancar
+- model object detection kesulitan ketika membedakan point_east dan point_west
+- pesawat tidak akan selalu mengikuti command dengan sangat lurus (ex: point_west => bergerak ke kiri dengan sedikit miring keatas)
 
 ---
 
 ## References
+https://mavlink.io/en/messages/common.html
+https://ardupilot.org/planner/docs/common-mavlink-mission-command-messages-mav_cmd.html
 
 ---
 
-# How To Spice Up Your Romance
+## How To Spice Up Your Romance
+![uma](/home/kuro/final-project-plane-KUROzeph/img/uma-musume-still-in-love-uma-musume.gif)
+![redf](/home/kuro/final-project-plane-KUROzeph/img/FyeNVAraAAEQQKN.jpg)
+
+1. Maintain healthy relationship, dont ignore but dont get too attached
+2. If already head over heels, too late.
+3. have fun.
