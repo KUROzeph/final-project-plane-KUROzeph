@@ -90,7 +90,7 @@ class BehaviorMovement:
 
         self.move(direction, meters)
 
-    def do_broken(self):
+    def do_broken(self, direction = None):
         self.mp_core.fly_to_home()
         self.mp_core.crash()
     

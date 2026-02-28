@@ -32,6 +32,11 @@ def main():
             if result:
                 gesture, faces, state = result
 
+                if state["category"] == "BROKEN" and not behavior.broken:
+                    behavior.do_broken()
+                    behavior.broken = True
+                    continue
+
                 current_time = time.time()
 
                 if gesture:
