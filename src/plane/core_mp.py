@@ -77,11 +77,6 @@ def set_mode(master, mode_name):
 
     return wait_ack(master, expected_cmd=176)
 
-def land_mode(master):
-    print("Switching to LAND mode...")
-    return set_mode(master, 'AUTOLAND')
-
-
 def offset_location(lat, lon, north_m, east_m):
     dlat = north_m / 111111
     dlon = east_m / (111111 * math.cos(math.radians(lat)))

@@ -135,17 +135,6 @@ def get_stable_input(trust_manager):
     2
     )
 
-    cv2.putText(
-    annotated,
-    f"condition: {state['break']}",
-    (20, 80),
-    font,
-    0.7,
-    color,
-    2
-    )
-
-
     cv2.imshow("FOV", annotated)
     cv2.waitKey(1)
 
