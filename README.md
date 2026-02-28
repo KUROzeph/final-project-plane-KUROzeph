@@ -136,8 +136,8 @@ FOV akan generate setelah drone memasuki mode guided
 ---
 
 ## References
-https://mavlink.io/en/messages/common.html
-https://ardupilot.org/planner/docs/common-mavlink-mission-command-messages-mav_cmd.html
+- https://mavlink.io/en/messages/common.html
+- https://ardupilot.org/planner/docs/common-mavlink-mission-command-messages-mav_cmd.html
 
 ---
 
