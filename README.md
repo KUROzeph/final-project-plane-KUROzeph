@@ -15,6 +15,33 @@ PPT dan Video masukkan \docs.
 
 Jika size terlalu besar bisa masukkan ke drive lalu masukkan linknya
 
-# Sistem Kendali SITL Fixed Wing Berbasis Gestur Tangan dengan Personalisasi Yandere.
-*Sebuah simulasi fixed wing yang dimana gestur tangan digunakan untuk memberi arahan drone serta tingkat emosi program yang mempengaruhi perilakunya*
+---
 
+# Sistem Kendali SITL Fixed Wing Berbasis Gestur Tangan dengan Personalisasi Yandere.
+> *Sudahkah kamu mencintai dronemu? atau kamu selama ini hanya menganggap drone sebagai objek transportasi?*
+> *ajaklah kencan dronemu dengan program ini!*
+
+Program ini merupakan simulasi fixed wing menggunakan SITL Mission Planner yang telah terintegrasi PyMAVLink sebagai hati pergerakan drone, lalu juga Computer Vision dengan YOLOv8 sebagai mata dan otak untuk memproses gestur pengguna dan hubungannya dengan drone
+
+---
+## Daftar Isi
+- [Core Mission Planner](#core-mission-planner)
+- [Camera Vision](#camera-vision)
+- [Gesture Movement](#gesture-movement)
+- [Trust Mechanism](#trust-mechanism)
+
+---
+
+## Core Mission Planner
+
+---
+
+## Camera Vision
+
+---
+
+## Gesture Movement
+
+---
+
+## Trust Mechanism
