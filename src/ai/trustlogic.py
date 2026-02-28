@@ -27,14 +27,19 @@ class TrustManager:
                 "Do not end this program",
                 "Are you with someone else?",
                 "Where are you looking at?",
+                "Who are you talking with over there?",
+                "Eyes on the screen",
             ],
 
             "INTERESTED": [
                 "You're easy to follow.",
                 "Seems like you know your stuff.",
-                "You're fun to follow",
+                "You're fun person",
                 "You have my attention.",
                 "That was… nice.",
+                "Give me your orders.",
+                "Im waiting~",
+
             ],
 
             "DISTANCED": [
@@ -43,6 +48,8 @@ class TrustManager:
                 "Did I do something wrong?",
                 "I feel ignored.",
                 "Please pay attention.",
+                "Hey, pay attention to me.",
+                "Are you going to abandon me?",
             ],
 
             "ABANDONED": [
@@ -51,7 +58,7 @@ class TrustManager:
                 "Why am I alone?",
                 "Stay... please stay.",
                 "I waited for you.",
-                "I'm still here."
+                "I'm still here.",
             ],
         }
 
