@@ -40,9 +40,14 @@ def main():
                 current_time = time.time()
 
                 if gesture:
+
+                    if gesture == "double_palm":
+                        print("Initiating RTL")
+                        set_mode(master, "RTL")
+                        break
+
                     if gesture != last_gesture or (current_time - last_log_time) > LOG_DELAY:
                         behavior.execute_gesture(gesture)
-
                         last_gesture = gesture
                         last_log_time = current_time
 

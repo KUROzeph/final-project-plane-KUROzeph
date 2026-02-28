@@ -4,7 +4,7 @@ import time
 from collections import Counter
 from src.ai.trustlogic import TrustManager
 
-model = YOLO("model/gesture2.pt")
+model = YOLO("model/final_gesture.pt")
 face_cascade = cv2.CascadeClassifier(
     cv2.data.haarcascades + "haarcascade_frontalface_default.xml"
 )
@@ -59,15 +59,22 @@ def get_stable_input(trust_manager):
     stable_face_count = round(sum(face_buffer) / len(face_buffer))
 
     detected_label = None
+    fist_count = 0
 
     if len(results[0].boxes) > 0:
         for box in results[0].boxes:
             conf = float(box.conf[0])
             cls_id = int(box.cls[0])
+            label = model.names[cls_id]
 
             if conf > CONF_THRESHOLD:
-                detected_label = model.names[cls_id]
-                break
+                if label == "palm":
+                    fist_count += 1
+                else:
+                    detected_label = label
+
+                if fist_count >= 2:
+                    detected_label = "double_palm"
 
     gesture_buffer.append(detected_label)
 
