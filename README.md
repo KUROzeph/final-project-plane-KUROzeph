@@ -17,7 +17,7 @@ Jika size terlalu besar bisa masukkan ke drive lalu masukkan linknya
 
 ---
 
-# Sistem Kendali SITL Fixed Wing Berbasis Gestur Tangan dengan Personalisasi Yandere.
+# Dating Simulator UAV Fixed Wing Yandere
 > *Sudahkah kamu mencintai dronemu? atau kamu selama ini hanya menganggap drone sebagai objek transportasi?*
 > *ajaklah kencan dronemu dengan program ini!*
 
