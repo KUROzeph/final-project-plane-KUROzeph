@@ -1,4 +1,5 @@
 import time
+import random
 from src.msg.log import add_log
 
 
@@ -14,6 +15,45 @@ class TrustManager:
         self.DECAY_INTERVAL = 2
         self.last_praise_time = time.time()
         self._last_decay_tick = time.time()
+        self.MESSAGE_COOLDOWN = 8
+        self._last_message_time = time.time()
+        self._last_message = None
+        self._obsessed_spam_done = False
+
+        self.category_messages = {
+            "OBSESSED": [
+                "Look at me only.",
+                "Don't you dare be with someone else.",
+                "Do not end this program",
+                "Are you with someone else?",
+                "Where are you looking at?",
+            ],
+
+            "INTERESTED": [
+                "You're easy to follow.",
+                "Seems like you know your stuff.",
+                "You're fun to follow",
+                "You have my attention.",
+                "That was… nice.",
+            ],
+
+            "DISTANCED": [
+                "Why are you quiet?",
+                "You're not looking at me.",
+                "Did I do something wrong?",
+                "I feel ignored.",
+                "Please pay attention.",
+            ],
+
+            "ABANDONED": [
+                "Don't leave me...",
+                "Please come back.",
+                "Why am I alone?",
+                "Stay... please stay.",
+                "I waited for you.",
+                "I'm still here."
+            ],
+        }
 
     def update(self, gesture, face_count):
         if self.collapse_triggered:
@@ -60,6 +100,7 @@ class TrustManager:
             self.collapse_triggered = True
 
         self._update_category()
+        self.log_message()
 
     def _update_category(self):
         old_category = self.category
@@ -78,16 +119,32 @@ class TrustManager:
         if self.category != old_category:
             add_log(f"Category changed → {self.category}")
 
-            if self.category == "OBSESSED":
-                for i in range (25):
-                    add_log("i love you.")
-                    time.sleep(1)
-            elif self.category == "DISTANCED":
-                add_log("why are you not paying attention to me?")
-            elif self.category == "ABANDONED":
-                add_log("don't leave me...")
-            elif self.category == "BROKEN":
-                add_log("if i cant have you, then none can.")
+    def log_message(self):
+        now = time.time()
+
+        if now - self._last_message_time < self.MESSAGE_COOLDOWN:
+            return
+
+        self._last_message_time = now
+
+        if self.category == "OBSESSED" and not self._obsessed_spam_done:
+            for _ in range(15):
+                add_log("i love you.")
+                time.sleep(0.4)
+            self._obsessed_spam_done = True
+            return
+
+        messages = self.category_messages.get(self.category, [])
+        if not messages:
+            return
+
+        msg = random.choice(messages)
+
+        if msg == self._last_message and len(messages) > 1:
+            msg = random.choice([m for m in messages if m != self._last_message])
+
+        self._last_message = msg
+        add_log(msg)
 
     def get_state(self):
         return {
