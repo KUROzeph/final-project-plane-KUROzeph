@@ -66,6 +66,7 @@ Program ini merupakan simulasi fixed wing menggunakan SITL Mission Planner yang 
 
 ### What Affects Trust
 |Increase Trust|Decrease Trust|
+|---|---|
 |Face on screen (+1)|More than 1 face on screen (-5)|
 |Heart shaped hand (+10)|No face on screen (-3)|
 |Thumbs up (+3)|Thumbs down(-5)|
