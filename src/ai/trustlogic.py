@@ -11,7 +11,7 @@ class TrustManager:
         self.love_threshold = 90
         self.collapse_triggered = False
         self.DECAY_DELAY = 10
-        self.DECAY_RATE = 1
+        self.DECAY_RATE = 3
         self.DECAY_INTERVAL = 2
         self.last_praise_time = time.time()
         self._last_decay_tick = time.time()
