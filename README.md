@@ -142,7 +142,7 @@ FOV akan generate setelah drone memasuki mode guided
 ---
 
 ## How To Spice Up Your Romance
-![uma](img/uma-musume-still-in-love-uma-musume.gif)
+![mnk](img/monika.gif)
 ![redf](img/FyeNVAraAAEQQKN.jpg)
 
 1. Maintain healthy relationship, dont ignore but dont get too attached
