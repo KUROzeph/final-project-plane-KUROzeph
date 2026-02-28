@@ -66,13 +66,9 @@ Program ini merupakan simulasi fixed wing menggunakan SITL Mission Planner yang 
 
 ### What Affects Trust
 |Increase Trust|Decrease Trust|
-|---|---|
 |Face on screen (+1)|More than 1 face on screen (-5)|
-|---|---|
 |Heart shaped hand (+10)|No face on screen (-3)|
-|---|---|
 |Thumbs up (+3)|Thumbs down(-5)|
-|---|---|
 |-|Did not give praise for too long(-1)|
 
 ### Behavior Based On Category
@@ -146,8 +142,8 @@ https://ardupilot.org/planner/docs/common-mavlink-mission-command-messages-mav_c
 ---
 
 ## How To Spice Up Your Romance
-![uma](/home/kuro/final-project-plane-KUROzeph/img/uma-musume-still-in-love-uma-musume.gif)
-![redf](/home/kuro/final-project-plane-KUROzeph/img/FyeNVAraAAEQQKN.jpg)
+![uma](img/uma-musume-still-in-love-uma-musume.gif)
+![redf](img/FyeNVAraAAEQQKN.jpg)
 
 1. Maintain healthy relationship, dont ignore but dont get too attached
 2. If already head over heels, too late.
