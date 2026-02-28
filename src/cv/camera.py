@@ -146,7 +146,7 @@ def get_stable_input(trust_manager):
     )
 
 
-    cv2.imshow("test", annotated)
+    cv2.imshow("FOV", annotated)
     cv2.waitKey(1)
 
     return stable_gesture, stable_face_count, state
