@@ -93,14 +93,14 @@ def get_stable_input(trust_manager):
                 x1, y1, x2, y2 = map(int, box.xyxy[0])
                 label = model.names[cls_id]
 
-                cv2.rectangle(annotated, (x1, y1), (x2, y2), (0, 255, 255), 2)
+                cv2.rectangle(annotated, (x1, y1), (x2, y2), (0, 146, 15), 2)
                 cv2.putText(
                     annotated,
                     f"{label} {conf:.2f}",
                     (x1, y1 - 10),
                     cv2.FONT_HERSHEY_SIMPLEX,
                     0.6,
-                    (0, 255, 255),
+                    (0, 146, 15),
                     2
                 )
 
