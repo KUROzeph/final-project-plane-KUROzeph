@@ -37,28 +37,28 @@ Program ini merupakan simulasi fixed wing menggunakan SITL Mission Planner yang 
 ## System Structure
 
 ### Perception Layer
--YOLOv8 gesture detection
--Haar Cascade face detection
--Confidence threshold
--Temporal smoothing buffers
+- YOLOv8 gesture detection
+- Haar Cascade face detection
+- Confidence threshold
+- Temporal smoothing buffers
 
 ### Emotional Engine
--Trust variable (0–100)
--Positive/negative modifiers
--Time-based decay
--Love threshold
--Collapse trigger
+- Trust variable (0–100)
+- Positive/negative modifiers
+- Time-based decay
+- Love threshold
+- Collapse trigger
 
 ### Behavior Layer
--Emotional category → movement magnitude
--Asynchronous execution
--State-based reaction
+- Emotional category → movement magnitude
+- Asynchronous execution
+- State-based reaction
 
 ### Flight Control Layer
--PyMAVLink TCP connection
--GUIDED reposition commands
--Haversine distance tracking
--SITL Plane simulation
+- PyMAVLink TCP connection
+- GUIDED reposition commands
+- Haversine distance tracking
+- SITL Plane simulation
 
 ---
 ## AI Trust and Emotion Behavior
