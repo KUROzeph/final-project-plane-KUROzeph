@@ -39,49 +39,55 @@ class BehaviorMovement:
 
     def move(self, direction, meters):
         if direction == "point_north":
-            threading.Thread(target=self.mp_core.go_north, args=(meters,), daemon=True).start()
+            threading.Thread(
+                target=self.mp_core.go_north,
+                args=(meters,),
+                daemon=True
+                ).start()
         elif direction == "point_south":
-            threading.Thread(target=self.mp_core.go_south, args=(meters,), daemon=True).start()
+            threading.Thread(
+                target=self.mp_core.go_south, 
+                args=(meters,), 
+                daemon=True
+                ).start()
         elif direction == "point_east":
-            threading.Thread(target=self.mp_core.go_east, args=(meters,), daemon=True).start()
+            threading.Thread(
+                target=self.mp_core.go_east, 
+                args=(meters,), 
+                daemon=True
+                ).start()
         elif direction == "point_west":
-            threading.Thread(target=self.mp_core.go_west, args=(meters,), daemon=True).start()
+            threading.Thread(
+                target=self.mp_core.go_west, 
+                args=(meters,),
+                daemon=True
+                ).start()
 
     def do_abandoned (self, direction):
         if random.random() < 0.5:
             return
-
         time.sleep(1.5)
-
         meters = random.randint(100, 150)
-
         if random.random() < 0.2:
             direction = random.choice([
                 "point_north", "point_south",
                 "point_east", "point_west"
             ])
-
         self.move(direction, meters)
 
     def do_distanced(self, direction):
         time.sleep(0.8)
-
         meters = random.randint(200, 250)
-
         self.move(direction, meters)
 
     def do_interested(self, direction):
         meters = 400
-
         self.move(direction, meters)
 
     def do_obsessed(self, direction):
         meters = random.randint(500, 800)
-
         if random.random() < 0.3:
             meters += 200
-
-
         self.move(direction, meters)
 
     def do_broken(self, direction = None):
