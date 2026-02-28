@@ -37,49 +37,49 @@ Program ini merupakan simulasi fixed wing menggunakan SITL Mission Planner yang 
 ## System Structure
 
 ### Perception Layer
-- YOLOv8 gesture detection
-- Haar Cascade face detection
+- Deteksi gestur YOLOv8
+- Deteksi wajah Haar Cascade
 - Confidence threshold
-- Temporal smoothing buffers
+- Buffer deteksi
 
 ### Emotional Engine
-- Trust variable (0–100)
-- Positive/negative modifiers
-- Time-based decay
+- Variabel trust (0–100)
+- Perubah trust (+/-)
+- Penurunan trust berbasis waktu
 - Love threshold
 - Collapse trigger
 
 ### Behavior Layer
-- Emotional category → movement magnitude
-- Asynchronous execution
-- State-based reaction
+- Kategori trust → Besar Pergerakan
+- Eksekusi Async
+- Reaksi berbasis kategori trust
 
 ### Flight Control Layer
-- PyMAVLink TCP connection
-- GUIDED reposition commands
-- Haversine distance tracking
-- SITL Plane simulation
+- Koneksi TCP PyMAVLink
+- Command guided reposition
+- Pengukuran jarak haversine
+- Simulasi Pesawat (SITL)
 
 ---
 ## AI Trust and Emotion Behavior
 **Initial Trust**: 60
 
 ### What Affects Trust
-|Increase Trust|Decrease Trust|
+|Menaikan Trust|Menurunkan Trust|
 |---|---|
-|Face on screen (+1)|More than 1 face on screen (-5)|
-|Heart shaped hand (+10)|No face on screen (-3)|
-|Thumbs up (+3)|Thumbs down(-5)|
-|-|Did not give praise for too long(-1)|
+|Wajah di frame (+1)|Wajah di frame >= 2 (-5)|
+|Tangan bentuk hati (+10)|Wajah tidak di frame (-3)|
+|Jempol atas (+3)|Jempol bawah(-5)|
+|-|Tidak memberi pujian(-1)|
 
 ### Behavior Based On Category
 |Category|Trust Amount|Behavior|
 |---|---|---|
-|Obsessed|80-100|chance to overperform|
-|Interested|50-79|no special act|
-|Distanced|20-49|chance to underperform|
-|Abandoned|1-19|chance to underperform, mess control detection|
-|Broken|0(if obsessed has been reached)|force aggresive landing|
+|Obsessed|80-100|peluang untuk overperform|
+|Interested|50-79|tidak ada perilaku spesial|
+|Distanced|20-49|peluang untuk underperform|
+|Abandoned|1-19|peluang untuk underperform, mengacak - acak kontrol gestur|
+|Broken|0(jika obsessed sudah pernah tercapai)|landing secara paksa|
 
 
 ---
