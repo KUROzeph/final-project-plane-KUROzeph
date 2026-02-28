@@ -25,23 +25,65 @@ Program ini merupakan simulasi fixed wing menggunakan SITL Mission Planner yang 
 
 ---
 ## Daftar Isi
-- [Core Mission Planner](#core-mission-planner)
-- [Camera Vision](#camera-vision)
-- [Gesture Movement](#gesture-movement)
-- [Trust Mechanism](#trust-mechanism)
+- [Requirements and Dependencies](#requirements-and-dependencies)
+- [How to Run](#how-to-run)
+- [Known Issues](#known-issues)
+- [References](#references)
+- [How To Spice Up Your Romance](#how-to-spice-up-your-romance)
 
 ---
 
-## Core Mission Planner
+## Requirements and Dependencies
+untuk menjalankan program ini diperlukan beberapa package dan software
+
+### System Requirements
+- Python 3.10+
+- Mission Planner
+- Camera/Webcam
+
+### Python Packages
+```bash
+pip install pymavlink ultralytics opencv-python numpy
+```
+---
+
+## How to Run
+Berikut langkah langkah yang perlu dilakukan untuk menjalankan program ini
+
+### Setup Mission Planner
+1. Buka Mission Planner
+2. Masuk ke tab "Simulation" dan mulai SITL Plane
+3. Masuk ke tab "Plan" dan  load "initial_takeoff_waypoints"
+4. Write dan Read
+5. Masuk ke tab Data
+
+### Setup Program
+1. Masuk ke directory Final Project Plane
+2. Ubah permission file script
+```bash
+chmod +x yandere_plane.sh
+```
+3. Jalankan script
+```bash
+./yandere_plane.sh
+```
+
+script ini akan membuat 3 window secara otomatis berupa:
+- Distance Tracker
+- AI Cognition
+- FOV
+
+#### Catatan
+FOV akan generate setelah drone memasuki mode guided
 
 ---
 
-## Camera Vision
+## Known Issues
 
 ---
 
-## Gesture Movement
+## References
 
 ---
 
-## Trust Mechanism
+# How To Spice Up Your Romance
